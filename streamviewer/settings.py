@@ -25,7 +25,7 @@ SECRET_KEY = 'a-$mj@r$p7d+bjkkhugvoyy6sl^ms0m3mai#_z05^fz8o_12_d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'stormy-headland-92009']
+ALLOWED_HOSTS = ['localhost', 'stormy-headland-92009.herokuapp.com']
 
 
 # Application definition
