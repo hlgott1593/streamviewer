@@ -28,32 +28,34 @@ class MessageViewSet(viewsets.ModelViewSet):
 
 	@action(detail=False)
 	def getMessages(self, request):
-		# queryset = Message.objects.all()
-		# serializer = MessageSerializer(queryset, many=True)
-		# print('made it list2')
-		# return Response(JSONRenderer().render(serializer.data))
 		response = {'status': 'FAILED'}
 		if not request.session.get('credentials'):
+			response['reason'] = 'user must login first'
 			return JsonResponse(response)
 
-		youtube = Utils.getYouTubeAPI(request)
-		# get pageToken from query string if exists
-		chatParams = {}
-		chatParams['liveChatId'] = liveChatId
-		chatParams['part'] = 'id,snippet,authorDetails'
-		chatParams['profileImageSize'] = 32
-		pageToken = request.GET.get('pageToken')
-		if (pageToken):
-			chatParams['pageToken'] = pageToken
+		liveChatId = request.GET.get('liveChatId')
+		if liveChatId:
+			youtube = Utils.getYouTubeAPI(request)
+			# get pageToken from query string if exists
+			chatParams = {}
+			chatParams['liveChatId'] = liveChatId
+			chatParams['part'] = 'id,snippet,authorDetails'
+			chatParams['profileImageSize'] = 32
+			pageToken = request.GET.get('pageToken')
+			if (pageToken):
+				chatParams['pageToken'] = pageToken
 
-		search_response = youtube.liveChatMessages().list(**chatParams).execute()
+			search_response = youtube.liveChatMessages().list(**chatParams).execute()
 
-		#save messages to local db
-		#messages = Message.objects.all()
-		#json_data = serializers.serialize("json", messages)
+			#save messages to local db
+			#messages = Message.objects.all()
+			#json_data = serializers.serialize("json", messages)
 
-		response['status'] = 'SUCCESS'
-		response['messages'] = search_response.get("items", [])
+			response['status'] = 'SUCCESS'
+			response['messages'] = search_response.get("items", [])
+		else:
+			response['reason'] = 'liveChatId is required'
+
 		return JsonResponse(response)
 
 	@action(detail=False)
@@ -68,8 +70,8 @@ class MessageViewSet(viewsets.ModelViewSet):
 
 		# get username from session
 		username = 'Alex'
-		messageText = request.POST['messageText']
-		liveChatId = request.POST['liveChatId']
+		messageText = request.POST.get('messageText')
+		liveChatId = request.POST.get('liveChatId')
 
 		insert_response = youtube.liveChatMessages.insert({
 	      'part': 'snippet',
