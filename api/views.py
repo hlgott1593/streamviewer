@@ -39,7 +39,7 @@ class MessageViewSet(viewsets.ModelViewSet):
 		# get pageToken from query string if exists
 		chatParams = {}
 		chatParams['liveChatId'] = liveChatId
-		chatParams['part'] = 'id,snippet'
+		chatParams['part'] = 'id,snippet,authorDetails'
 		chatParams['profileImageSize'] = 32
 		pageToken = request.GET.get('pageToken')
 		if (pageToken):
@@ -128,7 +128,7 @@ class StreamViewSet(viewsets.ModelViewSet):
 
 		youtube = Utils.getYouTubeAPI(request)
 		search_response = youtube.videos().list(
-			part='snippet,liveStreamingDetails',
+			part='snippet,statistics,liveStreamingDetails,contentDetails',
 	      	id=videoId
 		).execute()
 
