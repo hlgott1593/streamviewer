@@ -14,7 +14,7 @@ from googleapiclient.discovery import build
 import google.oauth2.credentials
 import google_auth_oauthlib.flow
 from django.shortcuts import redirect
-from streamviwer.utils import Utils
+from streamviewer.utils import Utils
 import json
 
 from rest_framework.renderers import JSONRenderer
