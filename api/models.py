@@ -23,8 +23,7 @@ class Message(models.Model):
 	video_id = models.TextField(max_length=200)
 	text = models.TextField()
 
-	def __str__(self):
-		return '%s %s' % (self.title, self.body)
+	
 
 
 

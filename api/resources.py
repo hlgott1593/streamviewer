@@ -1,10 +1,11 @@
-from tastypie.resources import ModelResource
+#from tastypie.resources import ModelResource
 from api.models import Message
 from django.views.generic import TemplateView
 from django.shortcuts import redirect
 from django.http import JsonResponse
 from googleapiclient.discovery import build
 from django.core import serializers
+from django.views import View
 import google.oauth2.credentials
 import google_auth_oauthlib.flow
 import json
@@ -21,10 +22,119 @@ API_SERVICE_NAME = 'youtube'
 API_VERSION = 'v3'
 
 
-class MessageResource(ModelResource):
-    class Meta:
-        queryset = Message.objects.all()
-        resource_name = 'message'
+# class MessageResource(ModelResource):
+#     class Meta:
+#         queryset = Message.objects.all()
+#         resource_name = 'message'
+
+# def getYouTubeAPI(request):
+# 	credentials = google.oauth2.credentials.Credentials(
+# 		**request.session['credentials'])
+# 	return build(API_SERVICE_NAME, API_VERSION, credentials = credentials)
+
+# class MessageResource(View):
+#     def get(self, request, liveChatId):
+#         response = {'status': 'FAILED'}
+# 		if not request.session['credentials']:
+# 			return JsonResponse(response)
+
+# 		youtube = getYouTubeAPI(request)
+# 		# get pageToken from query string if exists
+# 		chatParams = {}
+# 		chatParams['liveChatId'] = liveChatId
+# 		chatParams['part'] = 'id,snippet'
+# 		chatParams['profileImageSize'] = 32
+# 		pageToken = request.GET.get('pageToken')
+# 		if (pageToken):
+# 			chatParams['pageToken'] = pageToken
+
+# 		search_response = youtube.liveChatMessages().list(**chatParams).execute()
+
+# 		#save messages to local db
+# 		#messages = Message.objects.all()
+# 		#json_data = serializers.serialize("json", messages)
+
+# 		response['status'] = 'SUCCESS'
+# 		response['messages'] = search_response.get("items", [])
+# 		return JsonResponse(response)
+
+
+# 	def post(self, request):
+# 		response = {'status': 'FAILED'}
+# 		if not request.session['credentials']:
+# 			return JsonResponse(response)
+
+# 		# get username from session
+# 		username = 'Alex'
+# 		messageText = request.POST['messageText']
+# 		liveChatId = request.POST['liveChatId']
+
+# 		insert_response = youtube.liveChatMessages.insert({
+# 	      'part': 'snippet',
+# 	      'snippet': {
+# 	        'liveChatId': liveChatId,
+# 	        'type': 'textMessageEvent',
+# 	        'textMessageDetails': {
+# 	          'messageText': messageText,
+# 	        },
+# 	      },
+# 	    }).execute()
+		
+# 		#save message locally
+# 		# Message.objects.create(
+# 		# 	username='Alex',
+# 		# 	liveChatId=liveChatId,
+# 		# 	text=messageText
+# 		# )
+
+# 		response['result'] = insert_response
+# 		return JsonResponse(response)
+
+# class StreamResource(View):
+
+#     def get(self, request, **kwargs):
+#     	response = {'status': 'FAILED'}
+#     	if not request.session['credentials']:
+# 			return JsonResponse(response)
+
+#     	if kwargs:
+#     		return getStreamInfo(request, kwargs)
+# 		else:
+# 			return getLiveStreams(request)
+
+# 	def getLiveStreams(request):
+# 		response = {'status': 'FAILED'}
+# 		if not request.session['credentials']:
+# 			return JsonResponse(response)
+
+# 		youtube = getYouTubeAPI(request)
+# 		search_response = youtube.search().list(
+# 			eventType='live',
+# 			type='video',
+# 			part="id,snippet",
+# 			maxResults=10
+# 		).execute()
+
+# 		response['status'] = 'SUCCESS'
+# 		response['streams'] = search_response.get("items", [])
+# 		return JsonResponse(response)
+
+# 	def getStreamInfo(request, videoId):
+# 		response = {'status': 'FAILED'}
+# 		if not request.session['credentials']:
+# 			return JsonResponse(response)
+
+# 		youtube = getYouTubeAPI(request)
+# 		search_response = youtube.videos().list(
+# 			part='snippet,liveStreamingDetails',
+# 			id=videoId
+# 		).execute()
+
+# 		response['status'] = 'SUCCESS'
+# 		response['streamInfo'] = search_response.get("items", [])[0]
+# 		return JsonResponse(response)
+    	
+
 
 
 def credentials_to_dict(credentials):
@@ -87,32 +197,6 @@ def logout(request):
 	#request.session['credentials'] = None
 	request.session.modified = True
 	return JsonResponse({'status': 'success'})
-
-
-# Retrieve a list of broadcasts with the specified status.
-# def getBroadcasts(youtube, broadcast_status):
-# 	print 'Broadcasts with status "%s":' % broadcast_status
-
-# 	list_broadcasts_request = youtube.liveBroadcasts().list(
-# 		broadcastStatus=broadcast_status,
-# 		part='id,snippet',
-# 		maxResults=50
-# 	)
-# 	print(list_broadcasts_request.to_json())
-# 	while list_broadcasts_request:
-# 		list_broadcasts_response = list_broadcasts_request.execute()
-# 		#return list_broadcasts_response
-# 		print(list_broadcasts_request.to_json())
-# 		for broadcast in list_broadcasts_response.get('items', []):
-# 			print '%s (%s)' % (broadcast['snippet']['title'], broadcast['id'])
-
-# 		list_broadcasts_request = youtube.liveBroadcasts().list_next(
-# 			list_broadcasts_request, list_broadcasts_response)
-
-def getYouTubeAPI(request):
-	credentials = google.oauth2.credentials.Credentials(
-		**request.session['credentials'])
-	return build(API_SERVICE_NAME, API_VERSION, credentials = credentials)
 
 def getLiveStreams(request):
 	response = {'status': 'FAILED'}

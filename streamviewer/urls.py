@@ -17,19 +17,22 @@ from django.conf.urls import url
 from django.conf.urls import include
 from django.contrib import admin
 from django.views.generic import TemplateView
-from api import resources
-
+import views
 #essage_resource = MessageResource()
 #auth_resource = Authentication()
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', resources.index, name='root'),
-    url(r'^api/streams$', resources.getLiveStreams),
-    url(r'^api/streams/(?P<videoId>[a-zA-Z0-9_.-]+)/$', resources.getStreamInfo),
-    url(r'^api/message/(?P<liveChatId>[a-zA-Z0-9_.-]+)/$', resources.getChatMessages),
-    url(r'^api/message$', resources.putChatMessage),
-    url(r'^auth/', resources.authorize, name='auth'),
-    url(r'^oauth2callback/', resources.oauth2callback, name='oauth2callback'),
-    url(r'^logout/', resources.logout, name='logout'),
+    url(r'^api/', include('api.urls')),
+    #url(r'^api/', include(message_resource.urls)),
+    url(r'^$', views.index, name='root'),
+    #url(r'^api/streams$', resources.getLiveStreams),
+    #url(r'^api/streams/(?P<videoId>[a-zA-Z0-9_.-]+)/$', resources.getStreamInfo),
+    #url(r'^api/message/(?P<liveChatId>[a-zA-Z0-9_.-]+)/$', resources.getChatMessages),
+    #url(r'^api/message$', resources.putChatMessage),
+    url(r'^auth/', views.authorize, name='auth'),
+    url(r'^oauth2callback/', views.oauth2callback, name='oauth2callback'),
+    url(r'^logout/', views.logout, name='logout'),
+    #url('oauth/$', csrf_exempt(OAuth.as_view()), name='oauth'),
+	#url('oauth2-callback/$', OAuth2CallBack.as_view(), name='oauth2_callback'),
 ]
