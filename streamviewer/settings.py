@@ -157,5 +157,5 @@ YOUTUBE_API_SCOPES = [
 ]
 YOUTUBE_API_SERVICE_NAME = 'youtube'
 YOUTUBE_API_VERSION = 'v3'
-REDIRECT_URL='stormy-headland-92009.herokuapp.com/oauth2callback'
+REDIRECT_URL='https://stormy-headland-92009.herokuapp.com/oauth2callback'
 
