@@ -19,15 +19,15 @@ from django.contrib import admin
 from rest_framework import renderers
 from django.views.generic import TemplateView
 from views import MessageViewSet, StreamViewSet
-from api import resources
-
-from views import MessageViewSet
 from rest_framework.routers import DefaultRouter
-
 
 messageView = MessageViewSet.as_view({
     'get': 'getMessages',
     'post': 'sendMessage'
+    }, renderer_classes=[renderers.StaticHTMLRenderer])
+
+messageGroupView = MessageViewSet.as_view({
+    'get': 'getMessagesByCount',
     }, renderer_classes=[renderers.StaticHTMLRenderer])
 
 streamList = StreamViewSet.as_view({
@@ -38,25 +38,10 @@ streamDetails = StreamViewSet.as_view({
     'get': 'getStreamDetails'
     }, renderer_classes=[renderers.StaticHTMLRenderer])
 
-# router = DefaultRouter()
-# router.register(r'messages', testM, base_name='messages')
-# urlpatterns = [
-#     url(r'^', include(router.urls))
-# ]
+
 urlpatterns = [
-    url(r'^message$', messageView, name='messages'),
+    url(r'^messages$', messageView, name='messages'),
+    url(r'^messages/groupbyuser$', messageGroupView, name='messagesByUser'),
     url(r'^streams$', streamList, name='streamList'),
     url(r'^streams/(?P<videoId>[a-zA-Z0-9_.-]+)/$', streamDetails, name='streamDetails')
-    # url(r'^streams$', resources.getLiveStreams),
-    # url(r'^message/(?P<liveChatId>[a-zA-Z0-9_.-]+)/$', resources.getChatMessages),
-    # url(r'^message$', resources.putChatMessage),
 ]
-
-
-# urlpatterns = [
-#     url(r'^$', resources.index, name='root'),
-#     url(r'^streams$', resources.getLiveStreams),
-#     url(r'^streams/(?P<videoId>[a-zA-Z0-9_.-]+)/$', resources.getStreamInfo),
-#     url(r'^message/(?P<liveChatId>[a-zA-Z0-9_.-]+)/$', resources.getChatMessages),
-#     url(r'^message$', resources.putChatMessage),
-# ]

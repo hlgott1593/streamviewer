@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
+from django.db.models import Count
 from serializers import MessageSerializer
 from rest_framework.decorators import action
 from rest_framework import status, viewsets
@@ -90,6 +91,16 @@ class MessageViewSet(viewsets.ModelViewSet):
 
 		response['result'] = insert_response
 		return JsonResponse(response)
+
+	@action(detail=False)
+	def getMessagesByCount(self, request):
+		response = {'status': 'FAILED'}
+		if not request.session.get('credentials'):
+			return JsonResponse(response)
+
+		response['messageByCount'] = Message.objects.values('username').annotate(dcount=Count('username'))
+		return JsonResponse(response)
+
 
 class StreamViewSet(viewsets.ModelViewSet):
 
