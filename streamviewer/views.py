@@ -12,8 +12,8 @@ from utils import Utils
 
 
 def index(request):
-	if not request.session.get('credentials'):
-		return redirect('auth')
+	# if not request.session.get('credentials'):
+	# 	return redirect('auth')
 
 	# Valid credentials
 	return TemplateView.as_view(template_name="index.html")(request)

@@ -1,16 +1,15 @@
 import React from "react";
-import { render } from "react-dom";
 import StatsSummary from "../components/StatsSummary"
-
 // Import React Table
 import ReactTable from "react-table";
 import "react-table/react-table.css";
+import Utils from "../Utils"
 
 class StatsPage extends React.Component {
   constructor() {
     super();
     this.state = {
-      data: this.makeData()
+      videoData: this.makeData()
     };
   }
 
@@ -22,6 +21,16 @@ class StatsPage extends React.Component {
   }
 
   loadVideoStats() {
+    const url = 'api/stream/' + this.props.match.params.videoId
+    console.log("HERE" + url); 
+    Utils.APIGet(url,
+      function(jsonData) {
+        // handle video data
+      },
+      function(jsonData) {
+        console.log(jsonData)
+      }
+    )
     // fetch(url, {
     //   method: 'POST', // or 'PUT'
     //   body: JSON.stringify(data), // data can be `string` or {object}!
@@ -41,7 +50,15 @@ class StatsPage extends React.Component {
   }
 
   loadMessageStats() {
-
+    const url = this.props.location + 'api/messages/' + this.state.videoData.liveChatId
+    Utils.APIGet(url,
+      function(jsonData) {
+        // handle message data
+      },
+      function(jsonData) {
+        console.log(jsonData)
+      }
+    )
   }
 
   // TEMP

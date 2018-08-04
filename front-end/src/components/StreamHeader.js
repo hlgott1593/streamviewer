@@ -1,5 +1,4 @@
 import React from "react";
-import { render } from "react-dom";
 import { Link } from 'react-router-dom'
 
 class StreamHeader extends React.Component {
@@ -9,7 +8,7 @@ class StreamHeader extends React.Component {
   	const videoId = this.props.videoId;
     return(
       <div>
-      	<label>{name}</label>
+      	<h2>{name}</h2>
       	<Link to={`/stats/${videoId}`}>Stats</Link>
       </div>
     );

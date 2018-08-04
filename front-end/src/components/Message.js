@@ -1,12 +1,11 @@
 import React from "react";
-import { render } from "react-dom";
 
 class Message extends React.Component {
 
   render() {
-  	const data = this.props.data;
+  	const snippet = this.props.data.snippet;
     return(
-      <div>{data.username}: {data.text}</div>
+      <div>{snippet.publishedAt}: {snippet.displayMessage}</div>
     );
   }
 }

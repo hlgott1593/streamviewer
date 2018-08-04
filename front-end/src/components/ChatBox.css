@@ -1,0 +1,4 @@
+.scrollable {
+    height: 300px; /* or any value */
+    overflow-y: auto;
+}

@@ -1,8 +1,8 @@
 import React from "react";
-import { render } from "react-dom";
 import MessageList from './MessageList';
 import MessageForm from './MessageForm';
 import Message from './Message';
+import './ChatBox.css'
 
 class ChatBox extends React.Component {
 
@@ -14,7 +14,9 @@ class ChatBox extends React.Component {
   	const messages = this.props.messages;
 	return(
 	  <div>
-	  	<MessageList messages={messages} />
+	  	<div className="scrollable">
+	  		<MessageList messages={messages} />
+	  	</div>
 	  	<MessageForm />
 	  </div>
 	);

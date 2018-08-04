@@ -57,7 +57,7 @@ ROOT_URLCONF = 'streamviewer.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, "static"), ],
+        'DIRS': [os.path.join(BASE_DIR, "front-end/public"), ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -72,22 +72,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'streamviewer.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'streamviewer',
-#         'USER': 'harrisongottlieb',
-#         'PASSWORD': '',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
-DATABASES = { 
-    'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'streamviewer',
+        'USER': 'harrisongottlieb',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
+# DATABASES = { 
+#     'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
+# }
 
 
 
@@ -133,13 +130,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'front-end/public'),
 )
 
 WEBPACK_LOADER = {
     'DEFAULT': {
             'BUNDLE_DIR_NAME': 'bundles/',
-            'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
+            'STATS_FILE': os.path.join(BASE_DIR, 'front-end/webpack-stats.json'),
         }
 }
 

@@ -1,26 +1,20 @@
 {
-  "name": "front-end",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "babel": "^6.23.0",
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.5",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
-    "react": "^16.4.1",
-    "webpack": "^4.16.3",
-    "webpack-bundle-tracker": "^0.3.0",
-    "webpack-cli": "^3.1.0",
-    "react-table": "^6.8.6"
-  },
+  "name": "new_front-end",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "react-dom": "^16.4.1"
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-scripts": "1.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "react-router-dom": "^4.3.1",
+    "react-table": "^6.8.6"
   }
 }
