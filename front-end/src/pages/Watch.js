@@ -40,14 +40,15 @@ class WatchPage extends React.Component {
       function(jsonData) {
         // handle video data
         const liveChatId = jsonData.streamInfo.liveStreamingDetails.activeLiveChatId;
+        const snippet = jsonData.streamInfo.snippet;
         self.setState({
           streamInfo: {
-            title: jsonData.streamInfo.snippet.title,
+            title: snippet.title,
             liveChatId: liveChatId,
-            channelTitle: details.snippet.channelTitle,
-            description: details.snippet.description,
-            publishedAt: details.snippet.publishedAt,
-            tags: details.snippet.tags
+            channelTitle: snippet.channelTitle,
+            description: snippet.description,
+            publishedAt: snippet.publishedAt,
+            tags: snippet.tags
           }
         });
         // fetch chat messages
