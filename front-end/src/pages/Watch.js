@@ -10,7 +10,14 @@ class WatchPage extends React.Component {
   constructor() {
     super();
     this.state = {
-      streamInfo: null,
+      streamInfo: {
+        title: '',
+        liveChatId: '',
+        channelTitle: '',
+        description: '',
+        publishedAt: '',
+        tags: []
+      },
       chatMessages: []
     };
   }
@@ -32,12 +39,18 @@ class WatchPage extends React.Component {
     Utils.APIGet(url,
       function(jsonData) {
         // handle video data
-        console.log(jsonData);
+        const liveChatId = jsonData.liveStreamingDetails.activeLiveChatId;
         self.setState({
-          streamInfo: jsonData.streamInfo
+          streamInfo: {
+            title: jsonData.streamInfo.snippet.title,
+            liveChatId: liveChatId,
+            channelTitle: details.snippet.channelTitle,
+            description: details.snippet.description,
+            publishedAt: details.snippet.publishedAt,
+            tags: details.snippet.tags
+          }
         });
         // fetch chat messages
-        const liveChatId = jsonData.liveStreamingDetails.activeLiveChatId;
         self.loadMessages(liveChatId);
       },
       function(jsonData) {
@@ -54,7 +67,6 @@ class WatchPage extends React.Component {
     + '?liveChatId='
     + liveChatId;
     
-    //console.log(url); 
     Utils.APIGet(url,
       function(jsonData) {
         // handle video data
@@ -80,7 +92,7 @@ class WatchPage extends React.Component {
     return (
       <div className="panel panel-default">
         <div className="panel-body">
-          <StreamHeader title={streamInfo.snippet.title} link={`/stats/${videoId}`} navName="Stats"/>
+          <StreamHeader title={streamInfo.title} link={`/stats/${videoId}`} navName="Stats"/>
           <div className="Watch-stream-container row">
             <div className="col-sm-6">
               <StreamPlayer videoId={videoId} />
