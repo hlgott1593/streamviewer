@@ -65,10 +65,10 @@ class WatchPage extends React.Component {
     var self = this;
     console.log(liveChatId);
     const url = Utils.getBaseURL() 
-    + '/api/messages?token='
-    + this.props.token
-    + '&liveChatId='
-    + liveChatId;
+    + '/api/messages?liveChatId='
+    + liveChatId
+    + '&token='
+    + this.props.token;
     console.log(url);
     
     Utils.APIGet(url,
