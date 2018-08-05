@@ -11,15 +11,6 @@ class HomePage extends React.Component {
   }
 
   componentDidMount() {
-  	//do api call to live streams
-    // this.setState({
-    //   streamList: [
-    //     {'name': 'test1', 'video_id': '1'},
-    //     {'name': 'test2', 'video_id': '2'},
-    //     {'name': 'test3', 'video_id': '3'},
-    //     {'name': 'test4', 'video_id': '4'}
-    //   ]
-    // });
     this.loadLiveStreams();
   }
 
@@ -31,7 +22,6 @@ class HomePage extends React.Component {
     Utils.APIGet(url,
       function(jsonData) {
         // handle list data
-        console.log(jsonData)
         self.setState({
           streamList: jsonData.streams
         });
