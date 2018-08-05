@@ -89,7 +89,7 @@ class StatsPage extends React.Component {
   loadMessageCountByUser() {
     var self = this;
     const url = Utils.getBaseURL() 
-      + '/api/message/byuser?token='
+      + '/api/message/groupbyuser?token='
       + this.props.token
       + '&videoId='
       + this.props.match.params.videoId
