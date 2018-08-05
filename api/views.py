@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from django.db.models import Count
+from django.core import serializers as coreSerializers
 from serializers import MessageSerializer
 from rest_framework.decorators import action
 from rest_framework import status, viewsets
@@ -42,9 +43,9 @@ class MessageViewSet(viewsets.ModelViewSet):
 			chatParams['liveChatId'] = liveChatId
 			chatParams['part'] = 'id,snippet,authorDetails'
 			chatParams['profileImageSize'] = 32
-			pageToken = request.GET.get('pageToken')
+			pageToken = request.GET.get('nextPageToken')
 			if (pageToken):
-				chatParams['pageToken'] = pageToken
+				chatParams['nextPageToken'] = pageToken
 
 			search_response = youtube.liveChatMessages().list(**chatParams).execute()
 
@@ -53,6 +54,8 @@ class MessageViewSet(viewsets.ModelViewSet):
 			#json_data = serializers.serialize("json", messages)
 
 			response['status'] = 'SUCCESS'
+			response['nextPageToken'] = search_response.get("nextPageToken")
+			response['pollingIntervalMillis'] = search_response.get("pollingIntervalMillis")
 			response['messages'] = search_response.get("items", [])
 		else:
 			response['reason'] = 'liveChatId is required'
@@ -66,15 +69,14 @@ class MessageViewSet(viewsets.ModelViewSet):
 		# print('made it')
 		# return Response(JSONRenderer().render(serializer.data))
 		response = {'status': 'FAILED'}
-		token = request.GET.get('token')
+		token = request.POST.get('token')
 		if not token:
 			return JsonResponse(response)
 
 		# get username from session
-		username = 'Alex'
 		messageText = request.POST.get('messageText')
 		liveChatId = request.POST.get('liveChatId')
-		youtube = Utils.getYouTubeAPI(request)
+		youtube = Utils.getYouTubeAPI(token)
 		insert_response = youtube.liveChatMessages.insert({
 	      'part': 'snippet',
 	      'snippet': {
@@ -101,8 +103,18 @@ class MessageViewSet(viewsets.ModelViewSet):
 		response = {'status': 'FAILED'}
 		# if not request.session.get('credentials'):
 		# 	return JsonResponse(response)
+		querySet = Message.objects \
+			.values('username') \
+			.annotate(dcount=Count('username'))
+		queryData = coreSerializers.serialize(
+			'json',
+			querySet, 
+			fields=('username', 'count')
+		)
+		print(queryData)
+		response['messageByCount'] = queryData
 
-		response['messageByCount'] = Message.objects.values('username').annotate(dcount=Count('username'))
+		
 		return JsonResponse(response)
 
 
