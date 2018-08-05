@@ -150,8 +150,13 @@ class StreamViewSet(viewsets.ModelViewSet):
 	      	id=videoId
 		).execute()
 
-		response['status'] = 'SUCCESS'
-		response['streamInfo'] = search_response.get("items", [])[0]
+		results = search_response.get("items", [])
+		if len(results) > 0:
+			response['streamInfo'] = results[0]
+			response['status'] = 'SUCCESS'
+		else:
+			response['reason'] = 'No results were found'
+
 		return JsonResponse(response)
 
 

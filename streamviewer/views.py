@@ -26,8 +26,8 @@ class IndexView(TemplateView):
 
 
 def index(request):
-	# if not request.session.get('credentials'):
-	# 	return redirect('auth')
+	if not request.session.get('credentials'):
+		return redirect('auth')
 
 	# Valid credentials
 	return IndexView.as_view()(request)
@@ -74,4 +74,4 @@ def logout(request):
 	# Delete credentials from session
 	del request.session['credentials']
 	request.session.modified = True
-	return redirect('root')
+	return redirect('auth')

@@ -127,12 +127,12 @@ class StatsPage extends React.Component {
 
   componentDidMount() {
     //get video info from videoId
-    this.loadVideoStats();
+    this.loadStreamStats();
     this.loadMessageCountByUser();
     
   }
 
-  loadVideoStats() {
+  loadStreamStats() {
     const url = Utils.getBaseURL() 
     + '/api/streams/' 
     + this.props.match.params.videoId
@@ -143,6 +143,9 @@ class StatsPage extends React.Component {
       function(jsonData) {
         // handle video data
         console.log(jsonData)
+        this.setState({
+          streamInfo: jsonData.streamInfo
+        })
       },
       function(jsonData) {
         console.log(jsonData)
@@ -182,24 +185,6 @@ class StatsPage extends React.Component {
         console.log(jsonData)
       }
     )
-  }
-
-  // TEMP
-  makeData() {
-    return [
-      {
-        username: "test1",
-        messageCount: 8
-      },
-      {
-        username: "ffff",
-        messageCount: 3
-      },
-      {
-        username: "aaa",
-        messageCount: 1
-      }
-    ]
   }
 
   render() {
