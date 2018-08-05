@@ -39,6 +39,7 @@ class WatchPage extends React.Component {
     Utils.APIGet(url,
       function(jsonData) {
         // handle video data
+        console.log(jsonData.streamInfo.liveStreamingDetails)
         const liveChatId = jsonData.streamInfo.liveStreamingDetails.activeLiveChatId;
         const snippet = jsonData.streamInfo.snippet;
         self.setState({
@@ -62,19 +63,23 @@ class WatchPage extends React.Component {
 
   loadMessages(liveChatId) {
     var self = this;
+    console.log(liveChatId);
     const url = Utils.getBaseURL() 
     + '/api/messages?token='
     + this.props.token
     + '&liveChatId='
     + liveChatId;
+    console.log(url);
     
     Utils.APIGet(url,
       function(jsonData) {
         // handle video data
         console.log(jsonData)
-        self.setState({
-          chatMessages: jsonData.messages
-        });
+        if (jsonData.status == "SUCCESS") {
+          self.setState({
+            chatMessages: jsonData.messages
+          });
+        }
       },
       function(jsonData) {
         console.log(jsonData)
