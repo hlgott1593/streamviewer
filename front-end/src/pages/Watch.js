@@ -63,7 +63,7 @@ class WatchPage extends React.Component {
           }
         }, 
         // fetch chat messages
-        self.loadMessages);
+        self.loadMessages.bind(self));
       },
       function(jsonData) {
         //handle errors
@@ -72,13 +72,12 @@ class WatchPage extends React.Component {
     );
   }
 
-  loadMessages(nextPageToken) {
-    var self = this;
+  loadMessages(self, nextPageToken) {
     var url = Utils.getBaseURL() 
     + '/api/messages?liveChatId='
-    + this.state.streamInfo.liveChatId
+    + self.state.streamInfo.liveChatId
     + '&token='
-    + this.props.token;
+    + self.props.token;
     if (nextPageToken) {
       url += '&nextPageToken=' + nextPageToken
     }
@@ -93,7 +92,7 @@ class WatchPage extends React.Component {
             chatMessages: jsonData.messages
           });
           setTimeout(
-            loadMessages.bind(jsonData.nextPageToken), 
+            loadMessages.bind(self, jsonData.nextPageToken), 
             jsonData.pollingIntervalMillis
           );
         }
