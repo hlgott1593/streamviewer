@@ -1,17 +1,19 @@
 import React from "react";
+import StatsSummaryItem from "./StatsSummaryItem";
 
 class StatsSummary extends React.Component {
 
   render() {
+  	const stats = this.props.statistics
     return(
-    	<div>
-			<div>
-	    		<div>Stats: 1</div>
-	    		<div>Stats: 2</div>
+    	<div className="row">
+			<div className="col-sm-6">
+	    		<StatsSummaryItem stat="View Count" value={stats.viewCount}/>
+	    		<StatsSummaryItem stat="Like Count" value={stats.likeCount}/>
 	    	</div>
-			<div>
-				<div>Stats: 3</div>
-				<div>Stats: 4</div>
+			<div className="col-sm-6">
+				<StatsSummaryItem stat="Comment Count" value={stats.commentCount}/>
+				<StatsSummaryItem stat="Dislike Count" value={stats.dislikeCount}/>
 			</div>
     	</div>
     );

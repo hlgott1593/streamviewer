@@ -8,7 +8,7 @@ class MessageList extends React.Component {
       <Message data={message} />
     );
     return (
-      <ul>
+      <ul className="list-group">
         {messageList}
       </ul>
     );

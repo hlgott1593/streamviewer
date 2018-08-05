@@ -8,9 +8,9 @@ class StreamList extends React.Component {
       <StreamItem data={streamInfo} />
     );
     return (
-      <ul>
+      <div className="list-group">
         {listItems}
-      </ul>
+      </div>
     );
   }
 }

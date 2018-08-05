@@ -1,23 +1,23 @@
 import React from "react";
 import { Link } from 'react-router-dom'
+import "./StreamItem.css"
 
-class ListItem extends React.Component {
+class StreamItem extends React.Component {
 
   render() {
   	const videoId = this.props.data.id.videoId;
   	const snippet = this.props.data.snippet
   	const thumbnail = snippet.thumbnails.default
     return(
-      <li>
-  		<img src={`${thumbnail.url}`} />
-  		<div>
-  			<Link to={`/watch/${videoId}`} >{snippet.title}</Link>
-  			<label>{snippet.description}</label>
-  			<label>{snippet.publishedAt}</label>
+      <a href={`/watch/${videoId}`} className="list-group-item">
+  		<img className="StreamItem-thumbnail" src={`${thumbnail.url}`} align="left" />
+  		<div className="StreamItem-info">
+  			<h4>{snippet.title}</h4>
+  			<p>{snippet.description}</p>
   		</div>
-      </li>
+      </a>
     );
   }
 }
 
-export default ListItem;
+export default StreamItem;

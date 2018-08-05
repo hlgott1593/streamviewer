@@ -13,7 +13,7 @@ class ChatBox extends React.Component {
   render() {
   	const messages = this.props.messages;
 	return(
-	  <div>
+	  <div className="ChatBox-container">
 	  	<div className="scrollable">
 	  		<MessageList messages={messages} />
 	  	</div>

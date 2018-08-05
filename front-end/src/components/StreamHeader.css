@@ -1,0 +1,13 @@
+.StreamHeader-container {
+	margin-bottom: 10px;
+}
+
+.StreamHeader-title {
+    margin-top: 0px;
+    display: inline-block;
+    width: 90%;
+}
+
+.StreamHeader-nav {
+	float: right;
+}

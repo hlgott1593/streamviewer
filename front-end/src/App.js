@@ -10,14 +10,17 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <h1 className="App-title">Welcogme to React</h1>
+          <h2 className="App-title">Stream Viewer</h2>
+          <a href="/logout" className="StreamHeader-nav btn btn-primary" role="button">Logout</a>
         </header>
-        <Switch>
-          <Redirect exact from='/' to='/home'/>
-          <Route path='/home' component={HomePage}/>
-          <Route path='/watch/:videoId' component={WatchPage}/>
-          <Route path='/stats/:videoId' component={StatsPage}/>
-        </Switch>
+        <div className="App-content">
+          <Switch>
+            <Redirect exact from='/' to='/home'/>
+            <Route path='/home' component={HomePage}/>
+            <Route path='/watch/:videoId' component={WatchPage}/>
+            <Route path='/stats/:videoId' component={StatsPage}/>
+          </Switch>
+        </div>
       </div>
     );
   }
