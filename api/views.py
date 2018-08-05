@@ -29,7 +29,8 @@ class MessageViewSet(viewsets.ModelViewSet):
 	@action(detail=False)
 	def getMessages(self, request):
 		response = {'status': 'FAILED'}
-		if not request.session.get('credentials'):
+		token = request.GET.get('token')
+		if not token:
 			response['reason'] = 'user must login first'
 			return JsonResponse(response)
 
@@ -65,14 +66,15 @@ class MessageViewSet(viewsets.ModelViewSet):
 		# print('made it')
 		# return Response(JSONRenderer().render(serializer.data))
 		response = {'status': 'FAILED'}
-		if not request.session.get('credentials'):
+		token = request.GET.get('token')
+		if not token:
 			return JsonResponse(response)
 
 		# get username from session
 		username = 'Alex'
 		messageText = request.POST.get('messageText')
 		liveChatId = request.POST.get('liveChatId')
-
+		youtube = Utils.getYouTubeAPI(request)
 		insert_response = youtube.liveChatMessages.insert({
 	      'part': 'snippet',
 	      'snippet': {
@@ -97,8 +99,8 @@ class MessageViewSet(viewsets.ModelViewSet):
 	@action(detail=False)
 	def getMessagesByCount(self, request):
 		response = {'status': 'FAILED'}
-		if not request.session.get('credentials'):
-			return JsonResponse(response)
+		# if not request.session.get('credentials'):
+		# 	return JsonResponse(response)
 
 		response['messageByCount'] = Message.objects.values('username').annotate(dcount=Count('username'))
 		return JsonResponse(response)
@@ -113,10 +115,11 @@ class StreamViewSet(viewsets.ModelViewSet):
 		# print('made it list2')
 		# #return Response(JSONRenderer().render(serializer.data))
 		response = {'status': 'FAILED'}
-		if not request.session.get('credentials'):
+		token = request.GET.get('token')
+		if not token:
 			return JsonResponse(response)
 
-		youtube = Utils.getYouTubeAPI(request)
+		youtube = Utils.getYouTubeAPI(token)
 		search_response = youtube.search().list(
 			eventType='live',
 			type='video',
@@ -135,13 +138,13 @@ class StreamViewSet(viewsets.ModelViewSet):
 		# print(pk)
 		# #return Response(JSONRenderer().render(serializer.data))
 		# return Response(JSONRenderer().render(serializer.data))
-		print(request.session.get('credentials'))
 		response = {'status': 'FAILED'}
-		if not request.session.get('credentials'):
+		token = request.GET.get('token')
+		if not token:
 			#print(request.session.get_decoded())
 			return JsonResponse(response)
 
-		youtube = Utils.getYouTubeAPI(request)
+		youtube = Utils.getYouTubeAPI(token)
 		search_response = youtube.videos().list(
 			part='snippet,statistics,liveStreamingDetails,contentDetails',
 	      	id=videoId

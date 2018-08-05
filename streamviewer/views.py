@@ -1,6 +1,7 @@
 from api.models import Message
 from django.views.generic import TemplateView
 from django.shortcuts import redirect
+from django.shortcuts import render
 from django.http import JsonResponse
 from googleapiclient.discovery import build
 from django.core import serializers
@@ -10,13 +11,25 @@ import json
 import settings
 from utils import Utils
 
+class IndexView(TemplateView):
+    template_name = "index.html"
+
+    def get_context_data(self, **kwargs):
+    	token = ''
+        context = super(IndexView, self).get_context_data(**kwargs)
+
+        if (self.request.session.get('credentials')):
+	    	token = self.request.session.get('credentials').get('token')
+        context['token'] = token
+        return context
+
 
 def index(request):
-	# if not request.session.get('credentials'):
-	# 	return redirect('auth')
+	if not request.session.get('credentials'):
+		return redirect('auth')
 
 	# Valid credentials
-	return TemplateView.as_view(template_name="index.html")(request)
+	return IndexView.as_view()(request)
 
 def authorize(request):
 	# Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.

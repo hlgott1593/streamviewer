@@ -7,6 +7,7 @@ import StatsPage from './pages/Stats';
 
 class App extends Component {
   render() {
+    const token = this.props.token;
     return (
       <div className="App">
         <header className="App-header">
@@ -16,9 +17,12 @@ class App extends Component {
         <div className="App-content">
           <Switch>
             <Redirect exact from='/' to='/home'/>
-            <Route path='/home' component={HomePage}/>
-            <Route path='/watch/:videoId' component={WatchPage}/>
-            <Route path='/stats/:videoId' component={StatsPage}/>
+            <Route path='/home' 
+              render={(props) => <HomePage {...props} token={token} />} />
+            <Route path='/watch/:videoId' 
+              render={(props) => <WatchPage {...props} token={token} />} />
+            <Route path='/stats/:videoId' 
+              render={(props) => <StatsPage {...props} token={token} />} />
           </Switch>
         </div>
       </div>

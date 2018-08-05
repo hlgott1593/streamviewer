@@ -128,7 +128,6 @@ class StatsPage extends React.Component {
   componentDidMount() {
     //get video info from videoId
     this.loadVideoStats();
-    this.loadMessageStats();
     this.loadMessageCountByUser();
     
   }
@@ -163,20 +162,20 @@ class StatsPage extends React.Component {
     // )).then(callback)
   }
 
-  loadMessageStats() {
-    // const url = this.props.location + 'api/messages/' + this.state.videoData.liveChatId
-    // Utils.APIGet(url,
-    //   function(jsonData) {
-    //     // handle message data
-    //   },
-    //   function(jsonData) {
-    //     console.log(jsonData)
-    //   }
-    // )
-  }
-
   loadMessageCountByUser() {
-
+    const url = Utils.getBaseURL() 
+      + '/api/message/byuser?token=' 
+      + this.props.match.params.videoId
+    //console.log(url); 
+    Utils.APIGet(url,
+      function(jsonData) {
+        // handle video data
+        console.log(jsonData)
+      },
+      function(jsonData) {
+        console.log(jsonData)
+      }
+    )
   }
 
   // TEMP
