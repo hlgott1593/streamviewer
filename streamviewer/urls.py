@@ -25,4 +25,7 @@ urlpatterns = [
     url(r'^auth/', views.authorize, name='auth'),
     url(r'^oauth2callback/', views.oauth2callback, name='oauth2callback'),
     url(r'^logout/', views.logout, name='logout'),
+    url(r'^stats/', views.index),
+    url(r'^watch/', views.index),
+    url(r'^home/', views.index),
 ]
