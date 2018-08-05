@@ -5,7 +5,6 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom'
 
 window.getToken = function(properties) {
-	console.log(properties)
     ReactDOM.render((
 		<BrowserRouter>
 		<App token={properties.token}/>

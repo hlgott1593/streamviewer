@@ -133,7 +133,11 @@ class StatsPage extends React.Component {
   }
 
   loadVideoStats() {
-    const url = Utils.getBaseURL() + '/api/streams/' + this.props.match.params.videoId
+    const url = Utils.getBaseURL() 
+    + '/api/streams/' 
+    + this.props.match.params.videoId
+    + '?token='
+    + this.props.token;
     //console.log(url); 
     Utils.APIGet(url,
       function(jsonData) {
@@ -143,7 +147,7 @@ class StatsPage extends React.Component {
       function(jsonData) {
         console.log(jsonData)
       }
-    )
+    );
     // fetch(url, {
     //   method: 'POST', // or 'PUT'
     //   body: JSON.stringify(data), // data can be `string` or {object}!
@@ -164,7 +168,9 @@ class StatsPage extends React.Component {
 
   loadMessageCountByUser() {
     const url = Utils.getBaseURL() 
-      + '/api/message/byuser?token=' 
+      + '/api/message/byuser?token='
+      + this.props.token
+      + '&videoId='
       + this.props.match.params.videoId
     //console.log(url); 
     Utils.APIGet(url,

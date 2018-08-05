@@ -18,7 +18,6 @@ class IndexView(TemplateView):
     	token = ''
         context = super(IndexView, self).get_context_data(**kwargs)
 
-        print(self.request.session.get('credentials'))
         if (self.request.session.get('credentials')):
 	    	token = self.request.session.get('credentials').get('token')
         context['token'] = token
@@ -27,8 +26,8 @@ class IndexView(TemplateView):
 
 
 def index(request):
-	if not request.session.get('credentials'):
-		return redirect('auth')
+	# if not request.session.get('credentials'):
+	# 	return redirect('auth')
 
 	# Valid credentials
 	return IndexView.as_view()(request)
