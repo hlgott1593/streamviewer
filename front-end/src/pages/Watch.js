@@ -76,7 +76,7 @@ class WatchPage extends React.Component {
     var self = this;
     var url = Utils.getBaseURL() 
     + '/api/messages?liveChatId='
-    + liveChatId
+    + this.state.streamInfo.liveChatId
     + '&token='
     + this.props.token;
     if (nextPageToken) {
