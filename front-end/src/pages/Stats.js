@@ -54,7 +54,6 @@ class StatsPage extends React.Component {
     Utils.APIGet(url,
       function(jsonData) {
         // handle video data
-        console.log(jsonData)
         self.setState({
           streamInfo: {
             title: jsonData.streamInfo.snippet.title,
