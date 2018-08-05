@@ -135,9 +135,10 @@ class StreamViewSet(viewsets.ModelViewSet):
 		# print(pk)
 		# #return Response(JSONRenderer().render(serializer.data))
 		# return Response(JSONRenderer().render(serializer.data))
+		print(request.session.get('credentials'))
 		response = {'status': 'FAILED'}
 		if not request.session.get('credentials'):
-			print(request.session.get_decoded())
+			#print(request.session.get_decoded())
 			return JsonResponse(response)
 
 		youtube = Utils.getYouTubeAPI(request)
