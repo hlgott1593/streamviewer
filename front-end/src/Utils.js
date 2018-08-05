@@ -2,6 +2,7 @@
 class Utils {
 
 	static getBaseURL() {
+		//return 'http://localhost:8000'
 		return 'https://stormy-headland-92009.herokuapp.com'
 	}
 

@@ -23,11 +23,11 @@ class WatchPage extends React.Component {
     // bind functions
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    //this.loadMessages = this.loadMessages.bind(this);
   }
 
   componentDidMount() {
   	//on mount load api data
+    //this.loadMessages(this);
     this.loadStreamInfo()
   }
 
@@ -62,9 +62,10 @@ class WatchPage extends React.Component {
             publishedAt: snippet.publishedAt,
             tags: snippet.tags
           }
-        }, 
-        // fetch chat messages
-        self.loadMessages.bind(self));
+        }, () => {
+          // fetch chat messages
+          self.loadMessages(self);
+        });
       },
       function(jsonData) {
         //handle errors
@@ -74,7 +75,8 @@ class WatchPage extends React.Component {
   }
 
   loadMessages(self, nextPageToken) {
-    console.log(self, nextPageToken);
+    console.log(self);
+    console.log(nextPageToken);
     var url = Utils.getBaseURL() 
     + '/api/messages?liveChatId='
     + self.state.streamInfo.liveChatId
