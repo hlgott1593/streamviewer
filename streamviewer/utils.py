@@ -6,17 +6,21 @@ import json
 
 class Utils:
 
+# {u'client_secret': u'AxzyoIo8g2l8YgVRi-1wsxFZ', u'redirect_uris': [], 
+# u'token_uri': u'https://accounts.google.com/o/oauth2/token', u'client_id': u'912393781618-7i3v4974r20jsfvgtuqihis4q1thvmvr.apps.googleusercontent.com', u'auth_uri': u'https://accounts.google.com/o/oauth2/auth'}
+
 	@staticmethod
 	def getYouTubeAPI(token):
-		with open(settings.GOOGLE_OAUTH2_CLIENT_SECRETS_JSON) as json_file:
-			client_secret = json.load(json_file)
+		with open('../' + settings.GOOGLE_OAUTH2_CLIENT_SECRETS_JSON) as json_file:
+			client_secret = json.load(json_file)['web']
+			print(client_secret)
 			credentials = {
 				'token': token,
 				'refresh_token': None,
 				'token_uri': client_secret['token_uri'],
 				'client_id': client_secret['client_id'],
 				'client_secret': client_secret['client_secret'],
-				'scopes': client_secret['scopes']
+				'scopes': settings.YOUTUBE_API_SCOPES
 			}
 			credentials = google.oauth2.credentials.Credentials(**credentials)
 			return build(
