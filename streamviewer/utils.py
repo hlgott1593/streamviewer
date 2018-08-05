@@ -13,10 +13,10 @@ class Utils:
 			credentials = {
 				'token': token,
 				'refresh_token': None,
-				'token_uri': client_secret.token_uri,
-				'client_id': client_secret.client_id,
-				'client_secret': client_secret.client_secret,
-				'scopes': client_secret.scopes
+				'token_uri': client_secret['token_uri'],
+				'client_id': client_secret.['client_id'],
+				'client_secret': client_secret.['client_secret'],
+				'scopes': client_secret.['scopes']
 			}
 			credentials = google.oauth2.credentials.Credentials(**credentials)
 			return build(

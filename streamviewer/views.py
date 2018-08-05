@@ -18,9 +18,11 @@ class IndexView(TemplateView):
     	token = ''
         context = super(IndexView, self).get_context_data(**kwargs)
 
+        print(self.request.session.get('credentials'))
         if (self.request.session.get('credentials')):
 	    	token = self.request.session.get('credentials').get('token')
         context['token'] = token
+
         return context
 
 
