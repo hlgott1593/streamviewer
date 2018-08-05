@@ -133,6 +133,7 @@ class StatsPage extends React.Component {
   }
 
   loadStreamStats() {
+    var self = this;
     const url = Utils.getBaseURL() 
     + '/api/streams/' 
     + this.props.match.params.videoId
@@ -143,7 +144,7 @@ class StatsPage extends React.Component {
       function(jsonData) {
         // handle video data
         console.log(jsonData)
-        this.setState({
+        self.setState({
           streamInfo: jsonData.streamInfo
         })
       },
@@ -170,6 +171,7 @@ class StatsPage extends React.Component {
   }
 
   loadMessageCountByUser() {
+    var self = this;
     const url = Utils.getBaseURL() 
       + '/api/message/byuser?token='
       + this.props.token

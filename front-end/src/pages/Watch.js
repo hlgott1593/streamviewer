@@ -2002,17 +2002,18 @@ class WatchPage extends React.Component {
   }
 
   loadStreamInfo() {
+    var self = this;
     const url = Utils.getBaseURL() 
     + '/api/streams/' 
     + this.props.match.params.videoId
     + '?token='
     + this.props.token;
-    //console.log(url); 
+    
     Utils.APIGet(url,
       function(jsonData) {
         // handle video data
         console.log(jsonData);
-        this.setState({
+        self.setState({
           streamInfo: jsonData.streamInfo
         });
         loadMessages(liveChatId);
@@ -2024,7 +2025,7 @@ class WatchPage extends React.Component {
   }
 
   loadMessages(liveChatId) {
-
+    var self = this;
     const url = Utils.getBaseURL() 
     + '/api/messages?token'
     + this.props.token;
@@ -2036,6 +2037,9 @@ class WatchPage extends React.Component {
       function(jsonData) {
         // handle video data
         console.log(jsonData)
+        self.setState({
+          chatMessages: jsonData.messages
+        });
       },
       function(jsonData) {
         console.log(jsonData)

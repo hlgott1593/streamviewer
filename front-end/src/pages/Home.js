@@ -24,6 +24,7 @@ class HomePage extends React.Component {
   }
 
   loadLiveStreams() {
+    var self = this;
     const url = Utils.getBaseURL() 
       + '/api/streams?token=' 
       + this.props.token;
@@ -31,7 +32,7 @@ class HomePage extends React.Component {
       function(jsonData) {
         // handle list data
         console.log(jsonData)
-        this.setState({
+        self.setState({
           streamList: jsonData.streams
         });
       },
