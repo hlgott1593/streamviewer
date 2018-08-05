@@ -34,7 +34,7 @@ class MessageViewSet(viewsets.ModelViewSet):
 			response['reason'] = 'user must login first'
 			return JsonResponse(response)
 
-		liveChatId = request.GET.get('liveChatId')
+		liveChatId = request.GET.get('chat_id')
 		if liveChatId:
 			youtube = Utils.getYouTubeAPI(request)
 			# get pageToken from query string if exists
