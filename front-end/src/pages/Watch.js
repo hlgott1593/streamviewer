@@ -92,7 +92,7 @@ class WatchPage extends React.Component {
             chatMessages: jsonData.messages
           });
           setTimeout(
-            loadMessages.bind(self, jsonData.nextPageToken), 
+            self.loadMessages.bind(self, jsonData.nextPageToken), 
             jsonData.pollingIntervalMillis
           );
         }
