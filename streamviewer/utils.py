@@ -11,7 +11,7 @@ class Utils:
 
 	@staticmethod
 	def getYouTubeAPI(token):
-		with open('../' + settings.GOOGLE_OAUTH2_CLIENT_SECRETS_JSON) as json_file:
+		with open(settings.BASE_DIR + settings.GOOGLE_OAUTH2_CLIENT_SECRETS_JSON) as json_file:
 			client_secret = json.load(json_file)['web']
 			print(client_secret)
 			credentials = {
