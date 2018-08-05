@@ -23,6 +23,7 @@ class WatchPage extends React.Component {
     // bind functions
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    //this.loadMessages = this.loadMessages.bind(this);
   }
 
   componentDidMount() {
@@ -73,6 +74,7 @@ class WatchPage extends React.Component {
   }
 
   loadMessages(self, nextPageToken) {
+    console.log(self, nextPageToken);
     var url = Utils.getBaseURL() 
     + '/api/messages?liveChatId='
     + self.state.streamInfo.liveChatId
@@ -83,17 +85,22 @@ class WatchPage extends React.Component {
     }
     console.log(url);
     
+    
     Utils.APIGet(url,
       function(jsonData) {
         // handle video data
         console.log(jsonData)
         if (jsonData.status == "SUCCESS") {
           self.setState({
-            chatMessages: jsonData.messages
-          });
-          setTimeout(
-            self.loadMessages.bind(self, jsonData.nextPageToken), 
-            jsonData.pollingIntervalMillis
+              chatMessages: jsonData.messages
+            }, () => {
+              // set timeout based on youtube's interval
+              // response of when to poll for messages again
+              setTimeout(
+                self.loadMessages.bind(jsonData.nextPageToken, self), 
+                jsonData.pollingIntervalMillis
+              );
+            }
           );
         }
       },
