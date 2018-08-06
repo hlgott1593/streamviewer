@@ -118,7 +118,7 @@ class MessageViewSet(viewsets.ModelViewSet):
 	def getMessagesByUserCount(self, request):
 		response = {'status': 'FAILED'}
 		
-		liveChatId = request.data.get('liveChatId')
+		liveChatId = request.GET.get('liveChatId')
 		if liveChatId:
 			querySet = Message.objects.all() \
 				.filter(liveChatId=liveChatId) \

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import MessageList from './MessageList'
 import Utils from "../Utils"
+import './ChatBox.css'
 
 class MessageSearch extends Component {
   constructor(props) {
@@ -59,7 +60,7 @@ class MessageSearch extends Component {
             placeholder="Find username messages"
             onChange={this.handleInputChange}
           />
-          <div>{results}</div>
+          <div className="scrollable">{results}</div>
         </form>
       </div>
     )
