@@ -132,9 +132,9 @@ class MessageViewSet(viewsets.ModelViewSet):
 
 		searchString = request.GET.get('username')
 		if searchString:
-			querySet = Message.objects.filter(username=searchString)
+			querySet = Message.objects.filter(username__startswith=searchString)
 			queryData = MessageSerializer(querySet, many=True).data
-			
+
 			response['status'] = "SUCCESS"
 			response['messages'] = queryData
 
