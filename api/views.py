@@ -76,7 +76,7 @@ class MessageViewSet(viewsets.ModelViewSet):
 		messageText = request.data.get('messageText')
 		liveChatId = request.data.get('liveChatId')
 		youtube = Utils.getYouTubeAPI(token)
-		insert_response = youtube.liveChatMessages.insert({
+		insert_response = youtube.liveChatMessages().insert({
 	      'part': 'snippet',
 	      'snippet': {
 	        'liveChatId': liveChatId,
