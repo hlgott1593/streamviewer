@@ -4,4 +4,8 @@ from models import Message
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
-        fields = ('message_id','username','video_id','text')
+        fields = ('messageId','username','liveChatId','text')
+
+class MessageByUserSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=50)
+    count = serializers.IntegerField()

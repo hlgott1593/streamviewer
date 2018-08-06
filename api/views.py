@@ -4,8 +4,8 @@ from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from django.db.models import Count
-from django.core import serializers as coreSerializers
-from serializers import MessageSerializer
+# from django.core import serializers as coreSerializers
+from serializers import MessageSerializer, MessageByUserSerializer
 from rest_framework.decorators import action
 from rest_framework import status, viewsets
 from rest_framework.response import Response
@@ -23,9 +23,6 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 
 class MessageViewSet(viewsets.ModelViewSet):
-	#queryset = Message.objects.all()
-	#serializer_class = MessageSerializer
-	#serializer_class = MessageSerializer
 
 	@action(detail=False)
 	def getMessages(self, request):
@@ -48,21 +45,38 @@ class MessageViewSet(viewsets.ModelViewSet):
 				chatParams['pageToken'] = pageToken
 
 			search_response = youtube.liveChatMessages().list(**chatParams).execute()
+			messages = search_response.get("items", [])
 
-			#save messages to local db
-			#messages = Message.objects.all()
-			#json_data = serializers.serialize("json", messages)
+		# messages = ['test', 'test3', 'test41']
+		# for message in messages:
+		# 	try:
+		# 		Message.objects.create(
+		# 			pk = message,
+		# 			username = 'aaaaa',
+		# 			liveChatId = 'liveChatId',
+		# 			text = 'messtestages'
+		# 		)
+		# 	except Exception as e: 
+		# 		print(e)
+		# response['messages'] = messages
+			# save messages to local database
+			for message in messages:
+				try:
+					Message.objects.create(
+						pk = message.get('id'),
+						userName = message.get('authorDetails').get('displayName'),
+						liveChatId = liveChatId,
+						text = message.get('snippet').get('displayMessage')
+					)
+				except Exception as e: 
+					print(e)
 
 			response['status'] = 'SUCCESS'
 			response['nextPageToken'] = search_response.get("nextPageToken")
 			response['pollingIntervalMillis'] = search_response.get("pollingIntervalMillis")
-			response['messages'] = search_response.get("items", [])
+			response['messages'] = messages
 		else:
 			response['reason'] = 'liveChatId is required'
-		# response['status'] = 'SUCCESS'
-		# response['nextPageToken'] = 'asdf'
-		# response['pollingIntervalMillis'] = '2000'
-		# response['messages'] = ['y4sa', 'asf4f', 'asdf']
 		return JsonResponse(response)
 
 	@action(detail=False)
@@ -88,23 +102,6 @@ class MessageViewSet(viewsets.ModelViewSet):
 	    		)
     		)
 		).execute()
-  #       title=options.broadcast_title,
-  #       scheduledStartTime=options.start_time,
-  #       scheduledEndTime=options.end_time
-  #     ),
-  #     status=dict(
-  #       privacyStatus=options.privacy_status
-  #     )
-  #   )
-	    #   'snippet': {
-	    #     'liveChatId': liveChatId,
-	    #     'type': 'textMessageEvent',
-	    #     'textMessageDetails': {
-	    #       'messageText': messageText
-	    #     }
-	    #   }
-	    # }
-
 		
 		#save message locally
 		# Message.objects.create(
@@ -119,20 +116,15 @@ class MessageViewSet(viewsets.ModelViewSet):
 	@action(detail=False)
 	def getMessagesByCount(self, request):
 		response = {'status': 'FAILED'}
-		# if not request.session.get('credentials'):
-		# 	return JsonResponse(response)
-		querySet = Message.objects \
-			.values('username') \
-			.annotate(dcount=Count('username'))
-		queryData = coreSerializers.serialize(
-			'json',
-			querySet, 
-			fields=('username', 'count')
-		)
-		print(queryData)
-		response['messageByCount'] = queryData
-
+		if not request.session.get('credentials'):
+			return JsonResponse(response)
 		
+		querySet = Message.objects.all() \
+			.filter(liveChatId="liveChatId") \
+			.values('username') \
+			.annotate(count=Count('username'))
+		queryData = MessageByUserSerializer(querySet, many=True).data		
+		response['messagesByCount'] = queryData
 		return JsonResponse(response)
 
 
