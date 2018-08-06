@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import MessageList from './MessageList'
+import Utils from "../Utils"
 
 class MessageSearch extends Component {
   constructor(props) {

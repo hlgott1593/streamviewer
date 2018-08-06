@@ -18,7 +18,7 @@ class ChatBox extends React.Component {
   }
 
   componentDidUpdate() {
-  	scrollToBottom();
+  	this.scrollToBottom();
   }
 
   sendMessage(messageText) {
