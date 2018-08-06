@@ -21,8 +21,8 @@ class WatchPage extends React.Component {
       chatMessages: []
     };
     // bind functions
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -31,14 +31,14 @@ class WatchPage extends React.Component {
     this.loadStreamInfo()
   }
 
-  handleChange(event) {
-    this.setState({value: event.target.value});
-  }
+  // handleChange(event) {
+  //   this.setState({value: event.target.value});
+  // }
 
-  handleSubmit(event) {
-    alert('Your favorite flavor is: ' + this.state.value);
-    event.preventDefault();
-  }
+  // handleSubmit(event) {
+  //   alert('Your favorite flavor is: ' + this.state.value);
+  //   event.preventDefault();
+  // }
 
   loadStreamInfo() {
     var self = this;
@@ -90,9 +90,9 @@ class WatchPage extends React.Component {
         // handle video data
         console.log(jsonData)
         if (jsonData.status == "SUCCESS") {
-          self.setState({
-              chatMessages: jsonData.messages
-            }, () => {
+          self.setState((prevState) => ({
+              chatMessages: prevState.chatMessages.concat(jsonData.messages)
+            }), () => {
               // set timeout based on youtube's interval
               // response of when to poll for messages again
               setTimeout(

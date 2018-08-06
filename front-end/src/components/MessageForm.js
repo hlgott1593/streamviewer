@@ -24,6 +24,7 @@ class MessageForm extends React.Component {
   }
   
   sendMessage() {
+    const url = Utils.getBaseURL() + '/api/messages';
     // send message to live chat
     Utils.APIPost(url, 
       {
