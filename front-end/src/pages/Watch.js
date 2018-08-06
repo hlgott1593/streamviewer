@@ -62,10 +62,7 @@ class WatchPage extends React.Component {
             publishedAt: snippet.publishedAt,
             tags: snippet.tags
           }
-        }, () => {
-          // fetch chat messages
-          self.loadMessages(self);
-        });
+        }, self.loadMessages.bind(self));
       },
       function(jsonData) {
         //handle errors
