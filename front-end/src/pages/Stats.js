@@ -26,9 +26,7 @@ class StatsPage extends React.Component {
 
   componentDidMount() {
     //get video info from videoId
-    this.loadStreamStats();
-    this.loadMessageCountByUser();
-    
+    this.loadStreamStats();    
   }
 
   loadStreamStats() {
@@ -54,7 +52,7 @@ class StatsPage extends React.Component {
           }
         }, 
         //get messages by user
-        this.loadMessageCountByUser);
+        self.loadMessageCountByUser.bind(self));
       },
       function(jsonData) {
         console.log(jsonData)
@@ -88,7 +86,7 @@ class StatsPage extends React.Component {
     console.log(url); 
     Utils.APIGet(url,
       function(jsonData) {
-        // handle video data
+        // handle grouped messages
         console.log(jsonData)
         if (jsonData.status == 'SUCCESS') {
           self.setState({
