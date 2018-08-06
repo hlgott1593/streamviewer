@@ -11,10 +11,15 @@ class ChatBox extends React.Component {
     this.state = {
       input: ''
     };
+    //ref scroll container
+    this.messageContainer = React.createRef();
     // bind functions
     this.sendMessage = this.sendMessage.bind(this);
   }
 
+  componentDidUpdate() {
+  	scrollToBottom();
+  }
 
   sendMessage(messageText) {
   	console.log(this);
@@ -48,12 +53,16 @@ class ChatBox extends React.Component {
     );
   }
 
+  scrollToBottom() {
+  	console.log(this.messageContainer.scrollTop);
+    this.messageContainer.scrollTop = this.messageContainer.scrollHeight;
+  }
 
   render() {
   	const messages = this.props.messages;
 	return(
 	  <div className="ChatBox-container">
-	  	<div className="scrollable">
+	  	<div ref={this.messageContainer} className="scrollable">
 	  		<MessageList messages={messages} />
 	  	</div>
 	  	<MessageForm  submitForm={this.sendMessage}/>

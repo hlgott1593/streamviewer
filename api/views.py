@@ -27,6 +27,7 @@ class MessageViewSet(viewsets.ModelViewSet):
 	@action(detail=False)
 	def getMessages(self, request):
 		response = {'status': 'FAILED'}
+
 		token = request.GET.get('token')
 		if not token:
 			response['reason'] = 'user must login first'
@@ -114,10 +115,8 @@ class MessageViewSet(viewsets.ModelViewSet):
 		return JsonResponse(response)
 
 	@action(detail=False)
-	def getMessagesByCount(self, request):
+	def getMessagesByUserCount(self, request):
 		response = {'status': 'FAILED'}
-		if not request.session.get('credentials'):
-			return JsonResponse(response)
 		
 		querySet = Message.objects.all() \
 			.filter(liveChatId="liveChatId") \
@@ -125,6 +124,20 @@ class MessageViewSet(viewsets.ModelViewSet):
 			.annotate(count=Count('username'))
 		queryData = MessageByUserSerializer(querySet, many=True).data		
 		response['messagesByUser'] = queryData
+		return JsonResponse(response)
+
+	@action(detail=False)
+	def getMessagesByUsername(self, request):
+		response = {'status': 'FAILED'}
+
+		searchString = request.GET.get('username')
+		if searchString:
+			querySet = Message.objects.filter(username=searchString)
+			queryData = MessageSerializer(querySet, many=True).data
+			
+			response['status'] = "SUCCESS"
+			response['messages'] = queryData
+
 		return JsonResponse(response)
 
 

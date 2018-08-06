@@ -11,38 +11,50 @@ class MessageSearch extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
-  getMessages() {
-    // axios.get(`${API_URL}?api_key=${API_KEY}&prefix=${this.state.query}&limit=7`)
-    //   .then(({ data }) => {
-    //     this.setState({
-    //       results: data.data
-    //     })
-    //   })
+  getMessages(query) {
+    console.log(query);
+    var self = this;
+    var url = Utils.getBaseURL() 
+      + '/api/messages?username=' 
+      + query;
+    
+    Utils.APIGet(url,
+      function(jsonData) {
+        // handle message data
+        if (jsonData.status == "SUCCESS") {
+          self.setState({
+              results: jsonData.messages
+          });
+        }
+      },
+      function(jsonData) {
+        //handle errors
+        console.log(jsonData)
+      }
+    );
   }
 
-  handleInputChange() {
-    this.setState({
-      query: this.search.value
-    }, () => {
-      if (this.state.query && this.state.query.length > 1) {
-        if (this.state.query.length % 2 === 0) {
-          this.getMessages()
-        }
-      } else if (!this.state.query) {
-      }
-    })
+  handleInputChange(event) {
+    if(event.target.value) {
+      //get search results for text
+      this.getMessages(event.target.value);
+    }
+    // this.setState({
+    //   query: event.target.value
+    // }, 
+    // this.getMessages.bind(this));
   }
 
   render() {
     return (
-      <form>
-        <input type="text" className="form-control"
-          placeholder="Search username..."
-          ref={input => this.search = input}
-          onChange={this.handleInputChange}
-        />
-        <button type="submit" className="btn btn-primary">Send</button>
-      </form>
+      <div>
+        <form>
+          <input type="text" className="form-control"
+            placeholder="Find username messages"
+            onChange={this.handleInputChange}
+          />
+        </form>
+      </div>
     )
   }
 }

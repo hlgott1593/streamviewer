@@ -27,7 +27,11 @@ messageView = MessageViewSet.as_view({
     }, renderer_classes=[renderers.StaticHTMLRenderer])
 
 messageGroupView = MessageViewSet.as_view({
-    'get': 'getMessagesByCount',
+    'get': 'getMessagesByUserCount',
+    }, renderer_classes=[renderers.StaticHTMLRenderer])
+
+messageSearchView = MessageViewSet.as_view({
+    'get': 'getMessagesByUsername',
     }, renderer_classes=[renderers.StaticHTMLRenderer])
 
 streamList = StreamViewSet.as_view({
@@ -41,7 +45,8 @@ streamDetails = StreamViewSet.as_view({
 
 urlpatterns = [
     url(r'^messages$', messageView, name='messages'),
-    url(r'^messages/groupbyuser$', messageGroupView, name='messagesByUser'),
+    url(r'^messages/search$', messageSearchView, name='messagesByUsername'),
+    url(r'^messages/groupbyuser$', messageGroupView, name='messagesByUserCount'),
     url(r'^streams$', streamList, name='streamList'),
     url(r'^streams/(?P<videoId>[a-zA-Z0-9_.-]+)/$', streamDetails, name='streamDetails')
 ]

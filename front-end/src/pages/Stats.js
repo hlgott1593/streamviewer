@@ -82,7 +82,7 @@ class StatsPage extends React.Component {
       + '/api/messages/groupbyuser?token='
       + this.props.token
       + '&liveChatId='
-      + this.state.liveChatId;
+      + this.state.streamInfo.liveChatId;
     console.log(url); 
     Utils.APIGet(url,
       function(jsonData) {
