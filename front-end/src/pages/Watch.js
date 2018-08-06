@@ -74,8 +74,8 @@ class WatchPage extends React.Component {
     );
   }
 
-  loadMessages(self, nextPageToken) {
-    console.log(self);
+  loadMessages(nextPageToken) {
+    var self = this;
     console.log(nextPageToken);
     var url = Utils.getBaseURL() 
     + '/api/messages?liveChatId='
@@ -99,7 +99,7 @@ class WatchPage extends React.Component {
               // set timeout based on youtube's interval
               // response of when to poll for messages again
               setTimeout(
-                self.loadMessages.bind(jsonData.nextPageToken, self), 
+                self.loadMessages.bind(self, jsonData.nextPageToken), 
                 jsonData.pollingIntervalMillis
               );
             }
