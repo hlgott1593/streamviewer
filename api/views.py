@@ -45,7 +45,7 @@ class MessageViewSet(viewsets.ModelViewSet):
 			chatParams['profileImageSize'] = 32
 			pageToken = request.GET.get('nextPageToken')
 			if (pageToken):
-				chatParams['nextPageToken'] = pageToken
+				chatParams['pageToken'] = pageToken
 
 			search_response = youtube.liveChatMessages().list(**chatParams).execute()
 
