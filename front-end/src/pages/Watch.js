@@ -20,25 +20,12 @@ class WatchPage extends React.Component {
       },
       chatMessages: []
     };
-    // bind functions
-    // this.handleChange = this.handleChange.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
-  	//on mount load api data
-    //this.loadMessages(this);
+  	//on mount get api data
     this.loadStreamInfo()
   }
-
-  // handleChange(event) {
-  //   this.setState({value: event.target.value});
-  // }
-
-  // handleSubmit(event) {
-  //   alert('Your favorite flavor is: ' + this.state.value);
-  //   event.preventDefault();
-  // }
 
   loadStreamInfo() {
     var self = this;
@@ -47,12 +34,13 @@ class WatchPage extends React.Component {
     + this.props.match.params.videoId
     + '?token='
     + this.props.token;
-    
+    // get stream details from back-end
     Utils.APIGet(url,
       function(jsonData) {
         // handle video data
         const liveChatId = jsonData.streamInfo.liveStreamingDetails.activeLiveChatId;
         const snippet = jsonData.streamInfo.snippet;
+        // update streamInfo state
         self.setState({
           streamInfo: {
             title: snippet.title,
@@ -62,7 +50,10 @@ class WatchPage extends React.Component {
             publishedAt: snippet.publishedAt,
             tags: snippet.tags
           }
-        }, self.loadMessages.bind(self));
+        },
+        // after setting state load messages
+        // with required liveChatId
+        self.loadMessages.bind(self));
       },
       function(jsonData) {
         //handle errors
@@ -81,11 +72,12 @@ class WatchPage extends React.Component {
     if (nextPageToken) {
       url += '&nextPageToken=' + nextPageToken
     }    
-    
+    // get current set of messages from backend
     Utils.APIGet(url,
       function(jsonData) {
         // handle message data
         if (jsonData.status == "SUCCESS") {
+          // append new messages to chatMessages
           self.setState((prevState) => ({
               chatMessages: prevState.chatMessages.concat(jsonData.messages)
             }), () => {

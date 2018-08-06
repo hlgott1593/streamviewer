@@ -74,21 +74,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'streamviewer.wsgi.application'
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'streamviewer',
-#         'USER': 'harrisongottlieb',
-#         'PASSWORD': '',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
+# Database connection through heroku postgres
 DATABASES = { 
     'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
 }
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -124,7 +113,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-
 STATIC_URL = '/static/'
 
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
@@ -135,6 +123,7 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'front-end/public'),
 )
 
+# setup webpack loader
 WEBPACK_LOADER = {
     'DEFAULT': {
             'BUNDLE_DIR_NAME': 'bundles/',
@@ -144,9 +133,8 @@ WEBPACK_LOADER = {
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
+# YouTube API parameters
 GOOGLE_OAUTH2_CLIENT_SECRETS_JSON = 'client_secrets.json'
-
-#CLIENT_SECRETS_FILE='./client_secrets.json'
 YOUTUBE_API_SCOPES = [
     'https://www.googleapis.com/auth/userinfo.profile',
     'https://www.googleapis.com/auth/userinfo.email',

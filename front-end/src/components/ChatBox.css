@@ -3,6 +3,6 @@
 }
 
 .scrollable {
-    height: 300px; /* or any value */
+    height: 300px;
     overflow-y: auto;
 }

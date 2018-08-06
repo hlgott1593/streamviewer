@@ -2,17 +2,18 @@
 class Utils {
 
 	static getBaseURL() {
-		//return 'http://localhost:8000'
 		return 'https://stormy-headland-92009.herokuapp.com'
 	}
 
 	static APIGet(url, success_callback, error_callback) {
+		// Basic GET fetch
 		fetch(url).then(res => res.json())
 		.catch(error_callback)
 		.then(success_callback);
 	}
 
 	static APIPost(url, data, success_callback, error_callback) {
+		// Basic POST fetch
 		fetch(url, {
 		  method: 'POST',
 		  body: JSON.stringify(data),

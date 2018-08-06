@@ -6,6 +6,7 @@ class MessageSerializer(serializers.ModelSerializer):
         model = Message
         fields = ('messageId','username','liveChatId','text')
 
+# Aggregate Serializer
 class MessageByUserSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=50)
     count = serializers.IntegerField()

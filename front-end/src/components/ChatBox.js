@@ -33,19 +33,7 @@ class ChatBox extends React.Component {
         messageText: messageText,
         liveChatId: this.props.liveChatId
       },
-      function(jsonData) {
-        // handle video data
-        console.log(jsonData);
-        // if (jsonData.status == "SUCCESS") {
-        //   self.setState({
-        //     chatMessages: jsonData.messages
-        //   });
-        //   setTimeout(
-        //     loadMessages.bind(jsonData.nextPageToken), 
-        //     jsonData.pollingIntervalMillis
-        //   );
-        // }
-      },
+      function(jsonData) {},
       function(jsonData) {
         //handle errors
         console.log(jsonData)
@@ -54,7 +42,7 @@ class ChatBox extends React.Component {
   }
 
   scrollToBottom() {
-  	console.log(this.messageContainer);
+  	// set scroll position of message container
     this.messageContainer.current.scrollTop = 
     	this.messageContainer.current.scrollHeight;
   }
@@ -66,7 +54,7 @@ class ChatBox extends React.Component {
 	  	<div ref={this.messageContainer} className="scrollable">
 	  		<MessageList messages={messages} />
 	  	</div>
-	  	<MessageForm  submitForm={this.sendMessage}/>
+	  	<MessageForm submitForm={this.sendMessage}/>
 	  </div>
 	);
   }

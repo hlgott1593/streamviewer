@@ -19,7 +19,7 @@ class MessageSearch extends Component {
     var url = Utils.getBaseURL() 
       + '/api/messages/search?username=' 
       + query;
-    
+    // call back-end search messages api
     Utils.APIGet(url,
       function(jsonData) {
         // handle message data
@@ -42,10 +42,6 @@ class MessageSearch extends Component {
       //get search results for text
       this.getMessages(event.target.value);
     }
-    // this.setState({
-    //   query: event.target.value
-    // }, 
-    // this.getMessages.bind(this));
   }
 
   render() {

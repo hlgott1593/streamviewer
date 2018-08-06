@@ -19,6 +19,7 @@ class HomePage extends React.Component {
     const url = Utils.getBaseURL() 
       + '/api/streams?token=' 
       + this.props.token;
+    // get list of live streams from backend
     Utils.APIGet(url,
       function(jsonData) {
         // handle list data

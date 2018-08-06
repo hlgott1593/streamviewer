@@ -25,7 +25,7 @@ class StatsPage extends React.Component {
   }
 
   componentDidMount() {
-    //get video info from videoId
+    //get stream info from videoId
     this.loadStreamStats();    
   }
 
@@ -36,7 +36,7 @@ class StatsPage extends React.Component {
     + this.props.match.params.videoId
     + '?token='
     + this.props.token;
-    //console.log(url); 
+    // get stream info from backend
     Utils.APIGet(url,
       function(jsonData) {
         // handle video data
@@ -51,29 +51,14 @@ class StatsPage extends React.Component {
             dislikeCount: jsonData.streamInfo.statistics.dislikeCount
           }
         }, 
-        //get messages by user
+        // On complettion of getting liveChatId and setting state
+        // load aggregate data from backend with liveChatId
         self.loadMessageCountByUser.bind(self));
       },
       function(jsonData) {
         console.log(jsonData)
       }
     );
-    // fetch(url, {
-    //   method: 'POST', // or 'PUT'
-    //   body: JSON.stringify(data), // data can be `string` or {object}!
-    //   headers:{
-    //     'Content-Type': 'application/json'
-    //   }
-    // }).then(res => res.json())
-    // .catch(error => console.error('Error:', error))
-    // .then(response => console.log('Success:', response));
-    
-  
-    // fetch(
-    //   `${endPoint}/stats?video_id=${videoId}&filter=${filter}`,
-    // ).then(response => (
-    //   response.json()
-    // )).then(callback)
   }
 
   loadMessageCountByUser() {
@@ -83,7 +68,7 @@ class StatsPage extends React.Component {
       + this.props.token
       + '&liveChatId='
       + this.state.streamInfo.liveChatId;
-    console.log(url); 
+    // get aggregate count of messages by username
     Utils.APIGet(url,
       function(jsonData) {
         // handle grouped messages
@@ -101,7 +86,10 @@ class StatsPage extends React.Component {
   }
 
   render() {
+    const streamInfo = this.state.streamInfo;
+    const videoId = this.props.match.params.videoId;
     const messagesByUser = this.state.messagesByUser;
+    // react-table columns
     const columns = [
       {
         Header: "Username",
@@ -118,9 +106,6 @@ class StatsPage extends React.Component {
         desc: true
       }
     ];
-
-    const streamInfo = this.state.streamInfo;
-    const videoId = this.props.match.params.videoId;
 
     return (
       <div className="panel panel-default">

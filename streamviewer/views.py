@@ -26,6 +26,8 @@ class IndexView(TemplateView):
 
 
 def index(request):
+	# if credentials are not stored in session
+	# redirect to auth page
 	if not request.session.get('credentials'):
 		return redirect('auth')
 
@@ -52,7 +54,9 @@ def authorize(request):
 	return redirect(authorization_url)
 
 def oauth2callback(request):
+	# retrieve auth state from session.
 	state = request.session['state']
+	# recreate flow
 	flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
     	settings.GOOGLE_OAUTH2_CLIENT_SECRETS_JSON, 
     	scopes=settings.YOUTUBE_API_SCOPES, 
@@ -67,7 +71,7 @@ def oauth2callback(request):
 	# Store credentials in the session.
 	credentials = flow.credentials
 	request.session['credentials'] = Utils.credentialsToDict(credentials)
-	
+	# redirect to home page
 	return redirect('root')
 
 def logout(request):

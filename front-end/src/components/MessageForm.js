@@ -16,11 +16,11 @@ class MessageForm extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     //on mount load api data
-    console.log(this.state.input);
     this.props.submitForm(this.state.input);
   }
 
   handleChange(event) {
+    // update state with input field txt
     this.setState({input: event.target.value});
   }
 
@@ -31,8 +31,6 @@ class MessageForm extends React.Component {
 		  <input onChange={this.handleChange}
       type="text" className="MessageForm-input form-control" placeholder="Enter message..." />
 		  <button type="submit" className="btn btn-primary">Send</button>
-		 
-	
 		</form>
       </div>
     );

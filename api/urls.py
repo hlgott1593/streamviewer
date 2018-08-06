@@ -21,6 +21,7 @@ from django.views.generic import TemplateView
 from views import MessageViewSet, StreamViewSet
 from rest_framework.routers import DefaultRouter
 
+# custom defined ViewSets
 messageView = MessageViewSet.as_view({
     'get': 'getMessages',
     'post': 'sendMessage'
@@ -42,7 +43,7 @@ streamDetails = StreamViewSet.as_view({
     'get': 'getStreamDetails'
     }, renderer_classes=[renderers.StaticHTMLRenderer])
 
-
+# url api paths
 urlpatterns = [
     url(r'^messages$', messageView, name='messages'),
     url(r'^messages/search$', messageSearchView, name='messagesByUsername'),

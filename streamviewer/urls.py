@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 import views
 
+# base urls
 urlpatterns = [
     url(r'^$', views.index, name='root'),
     url(r'^api/', include('api.urls')),
