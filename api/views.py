@@ -64,7 +64,7 @@ class MessageViewSet(viewsets.ModelViewSet):
 				try:
 					Message.objects.create(
 						pk = message.get('id'),
-						userName = message.get('authorDetails').get('displayName'),
+						username = message.get('authorDetails').get('displayName'),
 						liveChatId = liveChatId,
 						text = message.get('snippet').get('displayMessage')
 					)
