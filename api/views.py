@@ -82,7 +82,7 @@ class MessageViewSet(viewsets.ModelViewSet):
 	        'liveChatId': liveChatId,
 	        'type': 'textMessageEvent',
 	        'textMessageDetails': {
-	          'messageText': messageText,
+	          'messageText': messageText
 	        },
 	      },
 	    }).execute()
