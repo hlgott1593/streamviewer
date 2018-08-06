@@ -73,7 +73,6 @@ class WatchPage extends React.Component {
 
   loadMessages(nextPageToken) {
     var self = this;
-    console.log(nextPageToken);
     var url = Utils.getBaseURL() 
     + '/api/messages?liveChatId='
     + self.state.streamInfo.liveChatId
@@ -81,14 +80,11 @@ class WatchPage extends React.Component {
     + self.props.token;
     if (nextPageToken) {
       url += '&nextPageToken=' + nextPageToken
-    }
-    console.log(url);
-    
+    }    
     
     Utils.APIGet(url,
       function(jsonData) {
-        // handle video data
-        console.log(jsonData)
+        // handle message data
         if (jsonData.status == "SUCCESS") {
           self.setState((prevState) => ({
               chatMessages: prevState.chatMessages.concat(jsonData.messages)
@@ -114,6 +110,7 @@ class WatchPage extends React.Component {
     const videoId = this.props.match.params.videoId;
     const chatMessages = this.state.chatMessages;
     const streamInfo = this.state.streamInfo;
+    console.log(streamInfo);
     return (
       <div className="panel panel-default">
         <div className="panel-body">
@@ -123,7 +120,9 @@ class WatchPage extends React.Component {
               <StreamPlayer videoId={videoId} />
             </div>
             <div className="col-sm-6">
-              <ChatBox messages={chatMessages} />
+              <ChatBox token={this.props.token} 
+                liveChatId={streamInfo.liveChatId} 
+                messages={chatMessages} />
             </div>
           </div>
           <StreamDetailsPanel details={streamInfo} />

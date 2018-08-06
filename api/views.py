@@ -59,23 +59,22 @@ class MessageViewSet(viewsets.ModelViewSet):
 			response['messages'] = search_response.get("items", [])
 		else:
 			response['reason'] = 'liveChatId is required'
-
+		# response['status'] = 'SUCCESS'
+		# response['nextPageToken'] = 'asdf'
+		# response['pollingIntervalMillis'] = '2000'
+		# response['messages'] = ['y4sa', 'asf4f', 'asdf']
 		return JsonResponse(response)
 
 	@action(detail=False)
 	def sendMessage(self, request):
-		# queryset = Message.objects.all()
-		# serializer = MessageSerializer(queryset, many=True)
-		# print('made it')
-		# return Response(JSONRenderer().render(serializer.data))
 		response = {'status': 'FAILED'}
-		token = request.POST.get('token')
+		token = request.data.get('token')
 		if not token:
 			return JsonResponse(response)
 
 		# get username from session
-		messageText = request.POST.get('messageText')
-		liveChatId = request.POST.get('liveChatId')
+		messageText = request.data.get('messageText')
+		liveChatId = request.data.get('liveChatId')
 		youtube = Utils.getYouTubeAPI(token)
 		insert_response = youtube.liveChatMessages.insert({
 	      'part': 'snippet',

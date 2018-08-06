@@ -16,47 +16,19 @@ class MessageForm extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     //on mount load api data
-    this.sendMessage()
+    console.log(this.state.input);
+    this.props.submitForm(this.state.input);
   }
 
   handleChange(event) {
-    this.setState({value: event.target.value});
-  }
-  
-  sendMessage() {
-    const url = Utils.getBaseURL() + '/api/messages';
-    // send message to live chat
-    Utils.APIPost(url, 
-      {
-        token: this.props.token,
-        messageText: this.state.input,
-        liveChatId: this.state.streamInfo.liveChatId
-      },
-      function(jsonData) {
-        // handle video data
-        console.log(jsonData);
-        // if (jsonData.status == "SUCCESS") {
-        //   self.setState({
-        //     chatMessages: jsonData.messages
-        //   });
-        //   setTimeout(
-        //     loadMessages.bind(jsonData.nextPageToken), 
-        //     jsonData.pollingIntervalMillis
-        //   );
-        // }
-      },
-      function(jsonData) {
-        //handle errors
-        console.log(jsonData)
-      }
-    );
+    this.setState({input: event.target.value});
   }
 
   render() {
     return(
       <div>
-      	<form onSubmit={this.handleSubmit}>
-		  <input value={this.state.value} onChange={this.handleChange}
+      	<form value={this.state.value} onSubmit={this.handleSubmit}>
+		  <input onChange={this.handleChange}
       type="text" className="MessageForm-input form-control" placeholder="Enter message..." />
 		  <button type="submit" className="btn btn-primary">Send</button>
 		 
