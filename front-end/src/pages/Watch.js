@@ -110,7 +110,6 @@ class WatchPage extends React.Component {
     const videoId = this.props.match.params.videoId;
     const chatMessages = this.state.chatMessages;
     const streamInfo = this.state.streamInfo;
-    console.log(streamInfo);
     return (
       <div className="panel panel-default">
         <div className="panel-body">

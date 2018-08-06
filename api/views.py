@@ -118,12 +118,15 @@ class MessageViewSet(viewsets.ModelViewSet):
 	def getMessagesByUserCount(self, request):
 		response = {'status': 'FAILED'}
 		
-		querySet = Message.objects.all() \
-			.filter(liveChatId="liveChatId") \
-			.values('username') \
-			.annotate(count=Count('username'))
-		queryData = MessageByUserSerializer(querySet, many=True).data		
-		response['messagesByUser'] = queryData
+		liveChatId = request.data.get('liveChatId')
+		if liveChatId:
+			querySet = Message.objects.all() \
+				.filter(liveChatId=liveChatId) \
+				.values('username') \
+				.annotate(count=Count('username'))
+			queryData = MessageByUserSerializer(querySet, many=True).data		
+			response['status'] = 'SUCCESS';
+			response['messagesByUser'] = queryData
 		return JsonResponse(response)
 
 	@action(detail=False)

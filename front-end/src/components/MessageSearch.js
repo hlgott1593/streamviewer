@@ -16,7 +16,7 @@ class MessageSearch extends Component {
     console.log(query);
     var self = this;
     var url = Utils.getBaseURL() 
-      + '/api/messages?username=' 
+      + '/api/messages/search?username=' 
       + query;
     
     Utils.APIGet(url,

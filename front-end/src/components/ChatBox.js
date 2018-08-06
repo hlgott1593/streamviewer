@@ -54,6 +54,7 @@ class ChatBox extends React.Component {
   }
 
   scrollToBottom() {
+  	console.log(this.messageContainer);
   	console.log(this.messageContainer.scrollTop);
     this.messageContainer.scrollTop = this.messageContainer.scrollHeight;
   }
