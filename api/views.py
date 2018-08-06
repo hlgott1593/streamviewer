@@ -81,7 +81,7 @@ class MessageViewSet(viewsets.ModelViewSet):
     		body=dict(
        			snippet=dict(
        				liveChatId=liveChatId,
-       				type=textMessageEvent,
+       				type='textMessageEvent',
        				textMessageDetails=dict(
 						messageText=messageText
 	    			)
