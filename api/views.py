@@ -83,8 +83,8 @@ class MessageViewSet(viewsets.ModelViewSet):
 	        'type': 'textMessageEvent',
 	        'textMessageDetails': {
 	          'messageText': messageText
-	        },
-	      },
+	        }
+	      }
 	    }).execute()
 		
 		#save message locally
