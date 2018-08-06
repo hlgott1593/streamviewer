@@ -124,7 +124,7 @@ class MessageViewSet(viewsets.ModelViewSet):
 			.values('username') \
 			.annotate(count=Count('username'))
 		queryData = MessageByUserSerializer(querySet, many=True).data		
-		response['messagesByCount'] = queryData
+		response['messagesByUser'] = queryData
 		return JsonResponse(response)
 
 

@@ -13,26 +13,14 @@ class StatsPage extends React.Component {
     this.state = {
       streamInfo: {
         title: "",
+        liveChatId: "",
         viewCount: "0",
         commentCount: "0",
         likeCount: "0",
         dislikeCount: "0"
       },
       messageSearchResults: [],
-      messagesByUser: [
-        {
-          'username': 'test',
-          'count': '2'
-        },
-        {
-          'username': 'test2',
-          'count': '5'
-        },
-        {
-          'username': 'test8',
-          'count': '1'
-        }
-      ]
+      messagesByUser: []
   };
   }
 
@@ -54,15 +42,19 @@ class StatsPage extends React.Component {
     Utils.APIGet(url,
       function(jsonData) {
         // handle video data
+        const liveChatId = jsonData.streamInfo.liveStreamingDetails.activeLiveChatId;
         self.setState({
           streamInfo: {
             title: jsonData.streamInfo.snippet.title,
+            liveChatId: liveChatId,
             viewCount: jsonData.streamInfo.statistics.viewCount,
             commentCount: jsonData.streamInfo.statistics.commentCount,
             likeCount: jsonData.streamInfo.statistics.likeCount,
             dislikeCount: jsonData.streamInfo.statistics.dislikeCount
           }
-        })
+        }, 
+        //get messages by user
+        this.loadMessageCountByUser);
       },
       function(jsonData) {
         console.log(jsonData)
@@ -91,13 +83,18 @@ class StatsPage extends React.Component {
     const url = Utils.getBaseURL() 
       + '/api/messages/groupbyuser?token='
       + this.props.token
-      + '&videoId='
-      + this.props.match.params.videoId
-    //console.log(url); 
+      + '&liveChatId='
+      + this.state.liveChatId;
+    console.log(url); 
     Utils.APIGet(url,
       function(jsonData) {
         // handle video data
         console.log(jsonData)
+        if (jsonData.status == 'SUCCESS') {
+          self.setState({
+            messagesByUser: jsonData.messagesByUser
+          });
+        }
       },
       function(jsonData) {
         console.log(jsonData)
