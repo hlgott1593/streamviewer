@@ -72,7 +72,6 @@ class StatsPage extends React.Component {
     Utils.APIGet(url,
       function(jsonData) {
         // handle grouped messages
-        console.log(jsonData)
         if (jsonData.status == 'SUCCESS') {
           self.setState({
             messagesByUser: jsonData.messagesByUser

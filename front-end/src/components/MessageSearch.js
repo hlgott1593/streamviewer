@@ -23,7 +23,6 @@ class MessageSearch extends Component {
     Utils.APIGet(url,
       function(jsonData) {
         // handle message data
-        console.log(jsonData);
         if (jsonData.status == "SUCCESS") {
           self.setState({
               results: jsonData.messages
@@ -44,6 +43,11 @@ class MessageSearch extends Component {
     }
   }
 
+  onFormSubmit (event) {
+    //prevent form from refreshing page
+    event.preventDefault();
+  }
+
   render() {
     const results = this.state.results.map((result) =>
       <div><b>{result.username}</b>: {result.text}</div>
@@ -51,7 +55,7 @@ class MessageSearch extends Component {
 
     return (
       <div>
-        <form>
+        <form onSubmit={this.onFormSubmit}>
           <input type="text" className="form-control"
             placeholder="Find username messages"
             onChange={this.handleInputChange}
