@@ -6,7 +6,7 @@ from django.db import models
 
 # Message Model
 class Message(models.Model):
-	messageId = models.CharField(max_length=100, primary_key=True)
+	messageId = models.CharField(max_length=200, primary_key=True)
 	username = models.TextField(max_length=50)
 	liveChatId = models.TextField(max_length=200)
 	text = models.TextField()
