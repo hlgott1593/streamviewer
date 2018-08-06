@@ -76,16 +76,35 @@ class MessageViewSet(viewsets.ModelViewSet):
 		messageText = request.data.get('messageText')
 		liveChatId = request.data.get('liveChatId')
 		youtube = Utils.getYouTubeAPI(token)
-		insert_response = youtube.liveChatMessages().insert({
-	      'part': 'snippet',
-	      'snippet': {
-	        'liveChatId': liveChatId,
-	        'type': 'textMessageEvent',
-	        'textMessageDetails': {
-	          'messageText': messageText
-	        }
-	      }
-	    }).execute()
+		insert_response = youtube.liveChatMessages().insert(
+    		part='snippet',
+    		body=dict(
+       			snippet=dict(
+       				liveChatId=liveChatId,
+       				type=textMessageEvent,
+       				textMessageDetails=dict(
+						messageText=messageText
+	    			)
+	    		)
+    		)
+		).execute()
+  #       title=options.broadcast_title,
+  #       scheduledStartTime=options.start_time,
+  #       scheduledEndTime=options.end_time
+  #     ),
+  #     status=dict(
+  #       privacyStatus=options.privacy_status
+  #     )
+  #   )
+	    #   'snippet': {
+	    #     'liveChatId': liveChatId,
+	    #     'type': 'textMessageEvent',
+	    #     'textMessageDetails': {
+	    #       'messageText': messageText
+	    #     }
+	    #   }
+	    # }
+
 		
 		#save message locally
 		# Message.objects.create(
